@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cálculo de Gratificación</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+      background-color: #f4f4f4;
+      color: #333;
+      text-align: justify;
+    }
+    h1 {
+      color: #004080;
+      text-align: center;
+    }
+    h2 {
+      color: #006699;
+    }
+    ul {
+      margin-bottom: 20px;
+    }
+    .ejemplo, .resultado {
+      background-color: #e8f0fe;
+      padding: 10px;
+      border-left: 5px solid #4285f4;
+      margin-bottom: 20px;
+    }
+    label, input, select, button {
+      display: block;
+      margin: 10px 0;
+    }
+    input, select {
+      padding: 5px;
+      width: 100%;
+      max-width: 300px;
+    }
+    button {
+      background-color: #004080;
+      color: white;
+      padding: 10px;
+      border: none;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #006699;
+    }
+    .container {
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      align-items: flex-start;
+      gap: 40px;
+    }
+    .contenido {
+      max-width: 600px;
+      flex: 1;
+    }
+    .formulario {
+      background-color: #ffffff;
+      padding: 20px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      max-width: 400px;
+      flex-shrink: 0;
+    }
+  </style>
+</head>
+
+<body>
+  <h1>Cálculo de Gratificación</h1>
+
+  <div class="container">
+    <div class="contenido">
+      <h2>1. Sueldo mensual completo trabajado (enero-junio):</h2>
+      <ul>
+        <li><strong>Gratificación</strong> = Sueldo mensual bruto</li>
+        <li><strong>Bonificación</strong> (EsSalud o EPS) = Sueldo bruto × 9% (o 6.75%)</li>
+        <li><strong>Total a recibir</strong> = Sueldo bruto + bonificación</li>
+      </ul>
+      <div class="ejemplo">
+        <strong>Ejemplo:</strong> si tu sueldo bruto es de S/ 2,000 y estás afiliado a EsSalud:<br>
+        Gratificación = S/ 2,000<br>
+        Bonificación = 2000 × 0.09 = 180<br>
+        Total = S/ 2,180
+      </div>
+
+      <h2>2. Trabajo parcial (menos de seis meses):</h2>
+      <ul>
+        <li><strong>Gratificación</strong> = (Sueldo bruto ÷ 6) × número de meses trabajados</li>
+        <li><strong>Bonificación</strong> = Gratificación × 9% (o 6.75%)</li>
+        <li><strong>Total a recibir</strong> = Gratificación + bonificación</li>
+      </ul>
+      <div class="ejemplo">
+        <strong>Ejemplo:</strong> si tu sueldo bruto es de S/ 1,000 y trabajaste 3 meses:<br>
+        Gratificación = 1000 ÷ 6 × 3 = 499.98<br>
+        Bonificación = 499.98 × 0.09 = 44.54<br>
+        Total = S/ 539.52
+      </div>
+    </div>
+
+    <div class="formulario">
+      <h2>Calculadora interactiva</h2>
+      <form id="calcForm">
+        <label for="sueldo">Sueldo Bruto Mensual (S/):</label>
+        <input type="number" id="sueldo" required>
+
+        <label for="meses">Meses trabajados (1-6):</label>
+        <input type="number" id="meses" min="1" max="6" required>
+
+        <label for="afiliacion">Tipo de afiliación:</label>
+        <select id="afiliacion">
+          <option value="9">EsSalud (9%)</option>
+          <option value="6.75">EPS (6.75%)</option>
+        </select>
+
+        <button type="submit">Calcular Gratificación</button>
+      </form>
+
+      <div class="resultado" id="resultado"></div>
+    </div>
+  </div>
+
+  <script>
+    document.getElementById('calcForm').addEventListener('submit', function (e) {
+      e.preventDefault();
+      const sueldo = parseFloat(document.getElementById('sueldo').value);
+      const meses = parseInt(document.getElementById('meses').value);
+      const porcentaje = parseFloat(document.getElementById('afiliacion').value);
+
+      let gratificacion, bonificacion, total;
+
+      if (meses === 6) {
+        gratificacion = sueldo;
+      } else {
+        gratificacion = (sueldo / 6) * meses;
+      }
+
+      bonificacion = gratificacion * (porcentaje / 100);
+      total = gratificacion + bonificacion;
+
+      document.getElementById('resultado').innerHTML = `
+        <strong>Resultados:</strong><br>
+        Gratificación: S/ ${gratificacion.toFixed(2)}<br>
+        Bonificación: S/ ${bonificacion.toFixed(2)}<br>
+        Total a recibir: S/ ${total.toFixed(2)}
+      `;
+    });
+  </script>
+</body>
+
+</html>
